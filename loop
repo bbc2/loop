@@ -1,0 +1,32 @@
+#!/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+line() {
+    local color=$1; shift
+
+    local reset="\e[0m"
+    local width=$(tput cols)
+    printf "$color%*s$reset" "$width" | sed 's/ /━/g'
+}
+
+main() {
+    local green="\e[1;92m"
+    local red="\e[1;91m"
+    local gray="\e[38;5;238m"
+    while true; do
+        echo "$(line "$gray")"
+        if "$@"; then
+            echo "$(line "$green")"
+        else
+            echo "$(line "$red")"
+        fi
+        fd \
+            --hidden \
+            --exclude .git \
+            --exec-batch inotifywait --quiet --quiet --recursive --event modify
+    done
+}
+
+main "$@"

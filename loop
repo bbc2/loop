@@ -26,7 +26,7 @@ main() {
         fd \
             --hidden \
             --exclude .git \
-            --exec-batch inotifywait --quiet --quiet --recursive --event modify
+            --exec-batch inotifywait --quiet --quiet --event modify,delete,move_self,delete_self
     done
 }
 

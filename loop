@@ -8,6 +8,7 @@ line() {
 
     local reset="\e[0m"
     local width=$(tput cols)
+    printf "$(printf "%$((width-1))s\r")"  # handle missing newline
     printf "$color%*s$reset" "$width" | sed 's/ /━/g'
 }
 
